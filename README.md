@@ -1,5 +1,3 @@
-# Welcome to GitHub Desktop!
-
-This is your README. READMEs are where you can communicate what your project is and how to use it.
-
-Write your name on line 6, save it, and then head back to GitHub Desktop.
+store是前端shopping是后端
+前端开发工具HBuilder 后端开发工具Intellij idea
+后端开发环境jdk1.8+maven
