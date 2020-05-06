@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://www.bai.com:8020/store/resources/css/back.css" />
+		<script src="http://www.bai.com:8020/store/resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/jquery-heima-0.0.1.js" ></script>
+		<script>
+			$(function(){
+				//获取分类集合
+				HM.ajax("/category?md=list",function(vo){
+					var categoryList=vo.data
+					for(c of categoryList){
+						var option="<option value='"+c.cid+"'>"+c.cname+"</option>"
+						$("[name='cid']").append(option);
+					}
+				})
+				
+				$("#save").click(function(){
+					HM.ajaxFile("/productadd","productForm",function(vo){
+						if(vo.code==1){
+							location.href="list.html"
+						}
+	
+					})
+				})	
+			})
+			
+		</script>
+	</head>
+	<body>
+		<form id="productForm"  method="post" enctype="multipart/form-data">
+			&nbsp;
+			<table cellSpacing="1" cellPadding="5" width="100%" align="center" bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
+				<tr>
+					<td  align="center" bgColor="#afd1f3" colSpan="4"
+						height="26">
+						<STRONG>添加商品</STRONG>
+					</td>
+				</tr>
+
+				<tr>
+					<td width="18%" align="center" bgColor="#f5fafe" >
+						商品名称：
+					</td>
+					<td  bgColor="#ffffff">
+						<input type="text" name="pname" value=""  class="bg"/>
+					</td>
+					<td width="18%" align="center" bgColor="#f5fafe" >
+						是否热门：
+					</td>
+					<td  bgColor="#ffffff">
+						<select name="is_hot">
+							<option value="1">是</option>
+							<option value="0">否</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td width="18%" align="center" bgColor="#f5fafe" >
+						市场价格：
+					</td>
+					<td  bgColor="#ffffff">
+						<input type="text" name="market_price" value=""  class="bg"/>
+					</td>
+					<td width="18%" align="center" bgColor="#f5fafe" >
+						商城价格：
+					</td>
+					<td  bgColor="#ffffff">
+						<input type="text" name="shop_price" value="" class="bg"/>
+					</td>
+				</tr>
+				<tr>
+					<td width="18%" align="center" bgColor="#f5fafe" >
+						商品图片：
+					</td>
+					<td bgColor="#ffffff" colspan="3">
+						<input type="file" name="pimage" />
+					</td>
+				</tr>
+				<tr>
+					<td width="18%" align="center" bgColor="#f5fafe" >
+						所属的分类：
+					</td>
+					<td  bgColor="#ffffff" colspan="3">
+						<select name="cid">
+							<option value="">--请选择--</option>
+							
+						</select>
+						
+						
+					</td>
+				</tr>
+				<tr>
+					<td width="18%" align="center" bgColor="#f5fafe" >
+						商品描述：
+					</td>
+					<td  bgColor="#ffffff" colspan="3">
+						<textarea name="pdesc" rows="5" cols="30"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td  style="WIDTH: 100%" align="center"
+						bgColor="#f5fafe" colSpan="4">
+						<button type="button" id="save">
+							&#30830;&#23450;
+						</button>
+						<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
+						<button type="reset" >&#37325;&#32622;</button>
+						<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
+						<INPUT  type="button" onclick="history.go(-1)" value="返回"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

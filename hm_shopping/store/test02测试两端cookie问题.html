@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="resources/js/jquery-1.11.3.min.js" ></script><br />
+		<script type="text/javascript" src="resources/js/jquery-heima-0.0.1.js" ></script>
+		<script>
+			function req(){
+				/*$.ajax({
+					type:"get",
+					url:"http://api.bai.com:8080/testcookie",
+					data:"username=xiaoming",
+					success:function(data){
+						alert(data);
+						
+					},
+					error:function(){
+						//.....
+					},
+					xhrFields:{
+						//允许服务器端给发送cookie  我会保存 并且允许客户端往回带cookie
+						withCredentials:true
+					}
+				});
+				*/
+				HM.ajax("/testcookie","username=xiaoming",function(data){
+					alert(data)
+					
+				})
+			}
+			
+			
+			
+			
+			
+			
+		</script>
+	</head>
+	<body>
+		<div>
+			<input type="button" value="点我试试后端行不行" onclick="req()" />
+		</div>
+	</body>
+</html>

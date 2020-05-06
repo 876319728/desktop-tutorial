@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>购物车</title>
+		<link rel="stylesheet" href="http://www.bai.com:8020/store/resources/css/bootstrap.min.css" type="text/css" />
+		<script src="http://www.bai.com:8020/store/resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script src="http://www.bai.com:8020/store/resources/js/bootstrap.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/jquery-heima-0.0.1.js"></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/heima-include.js"></script>
+		<!-- 引入自定义css文件 style.css -->
+		<style>
+
+		</style>
+		<script>
+			$(function() {
+				//获取存入购物车信息
+				HM.ajax("/cart?md=list", "", function(vo) {
+					var cart = vo.data;
+					var total = cart.total;
+					$("#total").html(total);
+					var items = cart.items;
+					//遍历
+					for(item of items) {
+
+						var tr = "<tr class=\"active\">\n" +
+							"\t\t\t\t\t\t\t\t\t<td width=\"60\" width=\"40%\">\n" +
+							"\t\t\t\t\t\t\t\t\t\t<img src=\"http://www.bai.com:8020/store/" + item.product.pimage + "\" width=\"70\" height=\"60\">\n" +
+							"\t\t\t\t\t\t\t\t\t</td>\n" +
+							"\t\t\t\t\t\t\t\t\t<td width=\"30%\">\n" +
+							"\t\t\t\t\t\t\t\t\t\t<a target=\"_blank\">" + item.product.pname + "</a>\n" +
+							"\t\t\t\t\t\t\t\t\t</td>\n" +
+							"\t\t\t\t\t\t\t\t\t<td width=\"20%\">\n" +
+							"\t\t\t\t\t\t\t\t\t\t￥" + item.product.shop_price + "\n" +
+							"\t\t\t\t\t\t\t\t\t</td>\n" +
+							"\t\t\t\t\t\t\t\t\t<td width=\"10%\">\n" +
+							"\t\t\t\t\t\t\t\t\t\t" + item.count + "\n" +
+							"\t\t\t\t\t\t\t\t\t</td>\n" +
+							"\t\t\t\t\t\t\t\t\t<td width=\"15%\">\n" +
+							"\t\t\t\t\t\t\t\t\t\t<span class=\"subtotal\">￥" + item.subtotal + "</span>\n" +
+							"\t\t\t\t\t\t\t\t\t</td>\n" +
+							"\t\t\t\t\t\t\t\t\t<td>\n" +
+							"\t\t\t\t\t\t\t\t\t\t<a pid='" + item.product.pid + "'  href=\"javascript:;\" class=\"delete\" onclick='delItem(this)' >删除</a>\n" +
+							"\t\t\t\t\t\t\t\t\t</td>\n" +
+							"\t\t\t\t\t\t\t\t</tr>"
+						$("#item_list").append(tr);
+					}
+				})
+				
+				//清空购物车
+				$("#clear").click(function(){
+					if(confirm("亲,你确认要清空购物车吗")){
+						HM.ajax("/cart?md=clear","",function(){
+							//页面加载
+							location.reload();
+						})
+					}
+				})
+				
+				
+				//生成订单来了
+				$("#generateOrderBtn").click(function(){
+					//发请求
+					HM.ajax("/order?md=generate","",function(vo){
+						if(vo.code==2){
+							//没有登录
+							location.href="../../login.html?ret="+location.href;
+						}
+						
+						if(vo.code==0){
+							//没有登录 跳转登录页面
+							alert(vo.data);
+						}
+						
+						if(vo.code==1){
+							location.href="../order/info.html?oid="+vo.data;
+						}
+					})
+				})
+			})
+			
+			//删除购物项
+			function delItem(obj){
+				if(confirm("亲,你确认要删除该购物项吗?")){
+					 //获取pid
+					 var pid = $(obj).attr("pid");
+					 HM.ajax("/cart?md=delItem","pid="+pid,function(vo){
+					 	//页面加载
+					 	location.reload();
+					 })
+				}else{
+					
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<!--头部-->
+			<div id="header" style="min-height: 130px;"></div>
+			<div class="container" style="min-height: 441px;">
+				<div class="row">
+					<div style="margin:0 auto; margin-top:10px;width:950px;">
+						<strong style="font-size:16px;margin:5px 0;">购物车详情</strong>
+						<table class="table table-bordered">
+							<thead>
+								<tr class="warning">
+									<th>图片</th>
+									<th>商品</th>
+									<th>价格</th>
+									<th>数量</th>
+									<th>小计</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="item_list">
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div style="margin-right:130px;">
+					<div style="text-align:right;">
+						商品金额: <strong style="color:#ff6600;">￥<span id="total">0.00</span>元</strong>
+					</div>
+					<div style="text-align:right;margin-top:10px;margin-bottom:10px;">
+						<a href="javascript:;" id="clear" class="clear">清空购物车</a>
+						<a href="javascript:;" id="generateOrderBtn">
+							<input type="button" width="100" value="提交订单" id="submit" border="0" style="background-color:#CD062D;height:35px;width:100px;color:white;">
+						</a>
+					</div>
+				</div>
+			</div>
+			<!--尾部-->
+			<div id="footer" style="min-height: 203px;"></div>
+		</div>
+	</body>
+
+</html>

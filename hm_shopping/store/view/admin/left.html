@@ -1,0 +1,27 @@
+<style>
+	body {background-color: #E6E6E6;margin: 0px;text-align:left;}
+	td {font-size:12px;color:#303030;line-height:20px;}
+	a:link,a:visited {color:#012F68;text-decoration: none;}
+	a:hover {color: #406EA8;text-decoration:none}
+</style>
+<div class="dtree">
+
+	<a href="javascript: d.openAll();">展开所有</a> | <a href="javascript: d.closeAll();">关闭所有</a>
+	<script src="http://www.bai.com:8020/store/resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/jquery-heima-0.0.1.js" ></script>
+	<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/dtree.js" ></script>
+	<script type="text/javascript">
+	
+		d = new dTree('d');
+		d.add('01',-1,'菜单管理');
+		
+		d.add('0102','01','分类管理','','','mainFrame');
+		d.add('010201','0102','分类列表','http://www.bai.com:8020/store/view/admin/category/list.html','','mainFrame');
+		d.add('010202','0102','分类添加','http://www.bai.com:8020/store/view/admin/category/add.html','','mainFrame');
+		d.add('0104','01','商品管理');
+		d.add('010403','0104','商品列表','http://www.bai.com:8020/store/view/admin/product/list.html','','mainFrame');
+		d.add('010401','0104','添加商品','http://www.bai.com:8020/store/view/admin/product/add.html','','mainFrame');
+		document.write(d);
+		
+	</script>
+</div>

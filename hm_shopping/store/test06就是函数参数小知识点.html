@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script>
+			function foo(url,params,fn){
+				//在js的函数中  有一个内置对象 直接使用 arguments 参数对象
+				//arguments 存着 你调用那一刻 所有参数数组 
+				if(arguments.length==3){
+					var a1=arguments[0];
+					var a2=arguments[1];
+					var a3=arguments[2];
+					
+				}else{
+					var a1=arguments[0];
+					var a2=arguments[1];
+
+				}
+				
+				
+				
+				
+				
+			}
+			
+			foo("http://www.baidu.com","xxx=xxx",function(){
+				alert("我是一个回调函数")
+			})
+			foo("http://www.baidu.com",function(){
+				alert("我是一个回调函数")
+			})
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

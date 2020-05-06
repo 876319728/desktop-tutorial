@@ -1,0 +1,18 @@
+.a_button_edit{
+	background: url(../img/admin/i_edit.gif) no-repeat;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+}
+.a_button_del{
+	background: url(../img/admin/i_del.gif) no-repeat;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+}
+.tr_odd{
+	background-color: #CCCCCC;
+}
+.tr_even{
+	background-color: #e6e6e6;
+}

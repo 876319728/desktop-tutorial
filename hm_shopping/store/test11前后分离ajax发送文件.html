@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="resources/js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="resources/js/jquery-heima-0.0.1.js" ></script>
+		<script>
+			$(function(){
+				
+				$("#upload").click(function(){
+					/*var params=$("form").serialize();
+					alert(params)*/
+					//js 专门提供一个对象 对付 ajax上传文件
+					//这个对象构建的需要给传入参数
+					//对应的form表单对象
+					var fd=new FormData(document.getElementById("f01"));
+					
+					/*$.ajax({
+						url:"http://api.itheima349.com/upload",
+						data:fd,
+						type:"post",
+						contentType:false,//不要动手脚 对请求头 不要覆盖
+						processData:false,
+						success:function(data){
+							alert(data);
+						},
+						error:function(){
+							//...
+						}
+						
+					})*/
+					
+					//封装好的方法直接用
+					HM.ajaxFile("/upload","f01",function(vo){
+						alert(vo)
+						
+					})
+					
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<form id="f01"   enctype="multipart/form-data" >
+	        用户名:<input type="text" name="username"><br>
+	        备注:<input type="text" name="desc"><br>
+	        头像:<input type="file" name="avatar"><br>
+	        身份证:<input type="file" name="IDCard"><br>
+        	<input type="button" value="点我提交" id="upload">
+    	</form>
+	</body>
+</html>

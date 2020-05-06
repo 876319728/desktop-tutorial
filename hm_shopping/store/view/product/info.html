@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>商品详情</title>
+		<link rel="stylesheet" href="http://www.bai.com:8020/store/resources/css/bootstrap.min.css" type="text/css" />
+		<script src="http://www.bai.com:8020/store/resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script src="http://www.bai.com:8020/store/resources/js/bootstrap.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/jquery-heima-0.0.1.js" ></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/heima-include.js" ></script>
+		
+		<style>
+			a:hover{
+				text-decoration: none;
+			}
+		</style>
+		<script>
+			 $(function(){
+			 	
+			 	//location.search 获取问号后面的值
+			 	var pid = HM.getParameter("pid");
+			 	HM.ajax("/product?md=info","pid="+pid,function(vo){
+			 		//获取商品所对应的分类信息
+			 		var category = vo.data.category;
+			 		//分类链接
+			 		var a = "<a href='http://www.bai.com:8020/store/view/product/list.html?cid="+category.cid+"'>"+category.cname+"</a>";
+			 		//放到对应的为止,图片左上方
+			 		$("#navbar").append(a);
+			 		
+			 		//获取商品信息
+			 		var product = vo.data.product;
+			 		
+			 		//开始放对应的数据
+			 		$("#pimage").attr("src","http://www.bai.com:8020/store/"+product.pimage);
+			 		$("#pid").html(product.pid);
+			 		$("#pname").html(product.pname);
+			 		$("#shop_price").html(product.shop_price);
+			 		$("#market_price").html(product.market_price);
+			 		$("#pdesc").html(product.pdesc);
+			 	});
+			 	
+			 	//添加购物车逻辑
+			 	$("#ItemBtn").click(function(){
+			 		//提交pid
+			 		//提交count
+			 		var pid = HM.getParameter("pid");
+			 		//获取商品购买数量
+			 		var count = $("#count").val();
+			 		
+			 		var params = "pid="+pid+"&count="+count;
+			 		
+			 		HM.ajax("/cart?md=add",params,function(vo){
+			 			if(vo.code==1){
+			 				//跳转购物车列表页面
+			 				location.href="../cart/list.html";
+			 			}else{
+			 				alert(vo.data);
+			 			}
+			 		})
+			 	});
+
+			 })
+		</script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div id="header" style="min-height: 130px;"></div>	
+			<div class="container">
+				<div class="row">
+					<div id="navbar" style="border: 1px solid #e4e4e4;width:930px;margin-bottom:10px;margin:0 auto;padding:10px;margin-bottom:10px;">
+						<a href="./index.html">首页&nbsp;&nbsp;&gt;</a>
+					</div>
+	
+					<div style="margin:0 auto;width:950px;">
+						<div class="col-md-6">
+							<img id="pimage" style="opacity: 1;width:400px;height:350px;" title="" class="medium" src="http://www.bai.com:8020/store/resources/img/loading.gif">
+						</div>
+	
+						<div class="col-md-6">
+							<div><strong id="pname">大冬瓜</strong></div>
+							<div style="border-bottom: 1px dotted #dddddd;width:350px;margin:10px 0 10px 0;">
+								<div><span id="pid"></span></div>
+							</div>
+	  
+							<div style="margin:10px 0 10px 0;">
+								一口价: <strong style="color:#ef0101;">&yen;<span id="shop_price">4.44</span>元/份</strong> 参 考 价: <del><span id="market_price"></span>元/份</del>
+							</div>
+	
+							<div style="margin:10px 0 10px 0;">促销: <a target="_blank" title="限时抢购 (2018-07-30 ~ 2018-09-01)" style="background-color: #f07373;">限时抢购</a> </div>
+	
+							<div style="padding:10px;border:1px solid #e7dbb1;width:330px;margin:15px 0 10px 0;;background-color: #fffee6;">
+								<div style="border-bottom: 1px solid #faeac7;margin-top:20px;padding-left: 10px;">购买数量:
+									<input id="count" name="count" value="1" maxlength="4" size="10" type="text"> </div>
+	
+								<div style="margin:20px 0px 10px 0px;padding-left: 70px;">
+									<a href="javascript:;" id="ItemBtn">
+										<input style="background: url('http://www.bai.com:8020/store/resources/img/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0);height:36px;width:127px;" value="加入购物车" type="button">
+									</a> 
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div style="width:950px;margin:0 auto;">
+						<!--<div style="background-color:#d3d3d3;width:930px;padding:10px 10px;margin:10px 0 10px 0;">
+							<strong>商品介绍</strong>
+						</div>
+	
+						<div>
+							<img src="http://www.bai.com:8020/store/resources/img/loading.gif">
+						</div>
+	-->
+						<div style="background-color:#d3d3d3;width:930px;padding:10px 10px;margin:10px 0 10px 0;">
+							<strong>商品参数</strong>
+						</div>
+						<div style="margin-top:10px;width:900px;" id="pdesc">
+							三防智能手机 移动/联通双4G 安全 黑黄色 双4G美国军工IP69 30天长待机 3米防水防摔 北斗
+						</div>
+	
+						<div style="background-color:#d3d3d3;width:900px;">
+							<table class="table table-bordered">
+								<tbody>
+									<tr class="active">
+										<th><strong>商品评论</strong></th>
+									</tr>
+									<tr class="warning">
+										<th>暂无商品评论信息 <a>[发表商品评论]</a></th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+	
+						<div style="background-color:#d3d3d3;width:900px;">
+							<table class="table table-bordered">
+								<tbody>
+									<tr class="active">
+										<th><strong>商品咨询</strong></th>
+									</tr>
+									<tr class="warning">
+										<th>暂无商品咨询信息 <a>[发表商品咨询]</a></th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+	
+				</div>
+			</div>
+			<div id="footer"  style="min-height: 203px;"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>我订单列表</title>
+		<link rel="stylesheet" href="http://www.bai.com:8020/store/resources/css/bootstrap.min.css" type="text/css" />
+		<script src="http://www.bai.com:8020/store/resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script src="http://www.bai.com:8020/store/resources/js/bootstrap.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/jquery-heima-0.0.1.js" ></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/heima-include.js" ></script>
+		<!-- 引入自定义css文件 style.css -->
+
+		<style>
+		</style>
+		<script>
+			$(function(){
+				var pageNumber=HM.getParameter("pageNumber")==null?1:HM.getParameter("pageNumber");
+				
+				var params="pageNumber="+pageNumber
+				
+				
+				//因为你要获取的我的订单  必须登录的
+				HM.ajax("/order?md=myOrders",params,function(vo){
+					//vo.code==2
+					if(vo.code==2){
+						//需要跳转登录页面
+						location.href="../../login.html?ret="+location.href;
+					}else{
+						
+						//开始拼接字符串
+						var pb=vo.data
+						var orders=pb.data;
+						var html="";
+						for(order of orders){
+							html+="<tr class=\"warning\">\n" +
+					        "\t\t\t\t\t\t\t\t\t\t<th colspan=\"2\">\n" +
+					        "\t\t\t\t\t\t\t\t\t\t\t订单编号:<a href='info.html?oid="+order.oid+"'>"+order.oid+"</a>\n" +
+					        "\t\t\t\t\t\t\t\t\t\t</th>\n" +
+					        "\t\t\t\t\t\t\t\t\t\t<th colspan=\"1\">订单状态:"+code2str(order.state)+" </th>\n" +
+					        "\t\t\t\t\t\t\t\t\t\t<th colspan=\"2\">下单时间:"+time2str(order.ordertime)+" </th>\n" +
+					        "\t\t\t\t\t\t\t\t\t</tr>\n" +
+					        
+					        "\t\t\t\t\t\t\t\t\t<tr class=\"warning\">\n" +
+					        "\t\t\t\t\t\t\t\t\t\t<th>图片</th>\n" +
+					        "\t\t\t\t\t\t\t\t\t\t<th>商品</th>\n" +
+					        "\t\t\t\t\t\t\t\t\t\t<th>价格</th>\n" +
+					        "\t\t\t\t\t\t\t\t\t\t<th>数量</th>\n" +
+					        "\t\t\t\t\t\t\t\t\t\t<th>小计</th>\n" +
+					        "\t\t\t\t\t\t\t\t\t</tr>\n" ;
+					        
+						    for(vo of order.vos){
+						    	html+="\t\t\t\t\t\t\t\t\t<tr class=\"active\">\n" +
+						        "\t\t\t\t\t\t\t\t\t\t<td width=\"60\" width=\"40%\">\n" +
+						        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"http://www.bai.com:8020/store/"+vo.pimage+"\" width=\"70\" height=\"60\">\n" +
+						        "\t\t\t\t\t\t\t\t\t\t</td>\n" +
+						        "\t\t\t\t\t\t\t\t\t\t<td width=\"30%\">\n" +
+						        "\t\t\t\t\t\t\t\t\t\t\t<a target=\"_blank\">"+vo.pname+"</a>\n" +
+						        "\t\t\t\t\t\t\t\t\t\t</td>\n" +
+						        "\t\t\t\t\t\t\t\t\t\t<td width=\"20%\">\n" +
+						        "\t\t\t\t\t\t\t\t\t\t\t￥"+vo.price+"\n" +
+						        "\t\t\t\t\t\t\t\t\t\t</td>\n" +
+						        "\t\t\t\t\t\t\t\t\t\t<td width=\"10%\">\n" +
+						        "\t\t\t\t\t\t\t\t\t\t\t"+vo.count+"\n" +
+						        "\t\t\t\t\t\t\t\t\t\t</td>\n" +
+						        "\t\t\t\t\t\t\t\t\t\t<td width=\"15%\">\n" +
+						        "\t\t\t\t\t\t\t\t\t\t\t<span class=\"subtotal\">￥"+vo.subtotal+"</span>\n" +
+						        "\t\t\t\t\t\t\t\t\t\t</td>\n" +
+						        "\t\t\t\t\t\t\t\t\t</tr>";
+						    }
+						}
+						
+						$("tbody").append(html);
+						
+						var pageHtml=HM.page(pb,"http://www.bai.com:8020/store/view/order/list.html");
+						
+						$(".pagination").append(pageHtml);
+					}
+				})
+			})
+			
+			
+			function code2str(code){
+				if(code==0){
+					return "未付款"
+				}
+				if(code==1){
+					return "已付款"
+				}
+				if(code==2){
+					return "已发货"
+				}
+				if(code==3){
+					return "已完成"
+				}
+			}
+			
+			function time2str(ms){
+				//js没有simpleDateFormat
+				var date=new Date(ms)
+				var year=date.getFullYear();
+				var month=date.getMonth()+1;
+				var day=date.getDate();
+				var hour=date.getHours();
+				var min=date.getMinutes();
+				var s=date.getSeconds();
+				
+				return ""+year+"-"+month+"-"+day+" "+hour+":"+min+":"+s;
+			}
+			
+			
+		</script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div id="header" style="min-height: 130px;"></div>	
+			<div class="container">
+				<div class="row">
+					<div style="margin:0 auto; margin-top:10px;width:950px;">
+						<strong>我的订单</strong>
+						<table class="table table-bordered">
+							<tbody>
+							
+							</tbody>
+							
+							
+						</table>
+					</div>
+				</div>
+				<div style="text-align: center;">
+					<ul class="pagination">
+						
+					</ul>
+				</div>
+			</div>
+			<div id="footer"  style="min-height: 203px;"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <!--CategoryDao  决定使用 CategoryDaoMysql 实现类-->
+    <bean name="CategoryDao" class="top.baivip.dao.impl.CategoryDaoMysql"></bean>
+
+    <bean name="CategoryService" class="top.baivip.service.impl.CategoryServiceImpl"></bean>
+
+    <bean name="OrderDao" class="top.baivip.dao.impl.OrderDaoImpl"></bean>
+
+    <bean name="OrderService" class="top.baivip.service.impl.OrderServiceImpl"></bean>
+</beans>

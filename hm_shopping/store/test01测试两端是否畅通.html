@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="resources/js/jquery-1.11.3.min.js" ></script>
+		<script>
+			function req(){
+				$.ajax({
+					type:"get",
+					url:"http://api.bai.com:8080/test",
+					data:"username=xiaoming",
+					success:function(data){
+						alert(data);
+						
+					},
+					error:function(){
+						//.....
+					}
+				});
+				
+				
+				
+				
+				
+			}
+			
+			
+			
+			
+			
+			
+		</script>
+	</head>
+	<body>
+		<div>
+			<input type="button" value="点我试试后端行不行" onclick="req()" />
+		</div>
+	</body>
+</html>

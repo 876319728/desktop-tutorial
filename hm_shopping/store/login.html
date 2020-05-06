@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>会员登录</title>
+		<link rel="stylesheet" href="http://www.bai.com:8020/store/resources/css/bootstrap.min.css" type="text/css" />
+		<script src="http://www.bai.com:8020/store/resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script src="http://www.bai.com:8020/store/resources/js/bootstrap.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/jquery-heima-0.0.1.js" ></script>
+		<script type="text/javascript" src="http://www.bai.com:8020/store/resources/js/heima-include.js" ></script>
+		<!-- 引入自定义css文件 style.css -->
+		
+		<script  type="text/javascript">
+			$(function () {
+			   //登录
+			   $("#loginBtn").click(function(){
+			   	//serialize():以键值对的形式从表单获取值
+			   	var params = $("#loginForm").serialize();
+			   	HM.ajax("/user?md=login",params,function(vo){
+			   		if(vo.code==1){
+			   			
+			   			//看看你有没有带参数
+			   			var url = HM.getParameter("ret");
+			   			if(url==null){
+			   				location.href="index.html";
+			   			}else{
+			   				location.href=url;
+			   			}
+			   		}else{
+			   			$("#error").html(vo.data).css("color","red");
+			   		}
+			   	})
+			   })
+            })
+			
+		</script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<!--头部-->
+			<div id="header" style="min-height: 130px;"></div>
+			<div class="container-fluid" style="height:460px;width: 98%; background:#FF2C4C url('http://www.bai.com:8020/store/resources/img/loginbg.jpg') no-repeat;">
+				<div class="row">
+					<div class="col-md-7">
+					</div>
+
+					<div class="col-md-5">
+						<div style="width:440px;border:1px solid #E7E7E7;padding:20px 0 20px 30px;border-radius:5px;margin-top:60px;background:#fff;">
+							<font style="color: #666;font-size: 22px;font-weight: normal;padding-right: 17px;">会员登录</font>USER LOGIN ${msg }
+							<div id="error"></div>
+							<form class="form-horizontal" id="loginForm" method="post">
+								<div class="form-group">
+									<label for="username" class="col-sm-2 control-label">用户名</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" id="username" placeholder="请输入用户名" name="username">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="password" class="col-sm-2 control-label">密码</label>
+									<div class="col-sm-6">
+										<input type="password" class="form-control" id="password" placeholder="请输入密码" name="password">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="code" class="col-sm-2 control-label">验证码</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" id="code" placeholder="请输入验证码">
+									</div>
+									<div class="col-sm-3">
+										<img src="http://www.bai.com:8020/store/resources/img/captcha.png" />
+									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<div class="checkbox">
+											<label>
+									          <input type="checkbox"> 自动登录
+									        </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<label>
+									          <input type="checkbox"> 记住用户名
+									        </label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<input type="button" width="100" value="登录" id="loginBtn" border="0" style="background-color:#CD062D;height:35px;width:100px;color:white;">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--尾部-->
+			<div id="footer"  style="min-height: 203px;"></div>
+		</div>
+	</body>
+</html>
